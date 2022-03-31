@@ -1,0 +1,42 @@
+两种参数类：
+
+Iconic(image,region,XLD)
+Control(string,integer,real,handle)
+
+(inout iconic:Output iconic:Input control:Output control)
+
+read_image(Image,;claudia')
+rgb1_to_gray(Image,GrayImage)
+threshold(GrayImage,Region,0,70)
+connection(Regions1,Connetion)
+select_shape(Connection,SelectedRegions,'area','and',45410.2,47037.8)
+
+ctrl+r弹出对话框选择图片
+
+组手-image acquisition  代码插入
+
+批量读取
+dev_open_window(0,0,800,600,'black',WindowHandle)
+list_files("picture',['files','follow_links'],ImageFiles)
+tuple_regexp_select(ImageFiles,['\\.(tif|tiff|gif|jpg|jpeg|jp2|png|pcx|pgm|ima)$','ignore_case'],ImageFiles)
+
+for Index:=0 to |ImageFiles|-1 by 1
+   read_image(Image,ImageFiles[Index])
+endfor
+
+获取实时图像
+开启图像采集接口——采集图像——关闭图像采集接口
+1、通过halcon自带的采集接口获取
+2、通过相机配套sdk获取
+
+助手-Image acquisition--自动获取接口
+
+相机主存--采集卡存储器--上位机内存
+
+异步读取：图像从采集设备获取，非实时，取像和处理并行，对图像处理时间把控比较严
+同步读取：通过相机取像，实时，取像与处理是串行，取像周期长
+
+
+数据结构：iconic:image,region ,extended line description
+         control string integer real handle
+         tuple
