@@ -1,0 +1,76 @@
+tuple_gen_const(10,5,)
+
+read_image(Image,"ss")
+copyImage:=Image
+
+a:=3
+if(a>1)
+  y:=1
+else
+  y:=-1
+
+endif
+
+#是不等于
+
+array:=[]
+for i:=1 to 10 by 1
+  array[i-1]:=i
+endfor
+
+array:=[]
+for i:=1 to 10 by 1
+  array:=[array,i]
+endfor
+
+repeat
+ array:=[array,i]
+ i:=i+1
+untile(flag==1)
+
+
+result:=''
+Index:=1
+
+switch(Index)
+case 1:
+   result:=result+'1'
+case 2:
+   result:=result+'2"
+default:
+   result:='-1'
+endswitch
+
+
+ROI
+read_image(Image,'claudia')
+get_image_size(Image,Width,Height)
+dev_open_window(0,0,Width,Height,'black',WindowHandle)
+dev_display(Image)
+draw_circle
+draw_rectangle1(Womdowhandle,Row1,Column1,Row2,Column2)
+gen_rectangle1(Region1,50,100,120,280)
+reduce_domain(Image,Region1,ImageReduced)
+
+
+棋盘格
+设定一个单通道照片，大小为宽12像素，高为9像素
+gen_image_const(image,'byte',12,9)
+设定高度初始位置，间隔为2像素
+for b:=0 to 8 by 2
+  for i:=0 to 11 by 2
+    set_grayval(image,b,i,255)
+    endfor
+endfor
+
+for b:=1 to 8 by 2
+  for i:=1 to 11 by 2
+    set_grayval(image,b,i,255)
+  endfor
+endfor
+
+write_image(image,'jpg',0,'2021.jpg')
+
+
+
+图像变换和校正
