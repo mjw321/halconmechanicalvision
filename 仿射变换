@@ -1,0 +1,71 @@
+平移： hom_mat2d_translate
+缩放： hom_mat2d_scale
+旋转： hom_mat2d_rotate
+创建仿射变换单位矩阵：hom_mat2d_identity
+进行仿射变换：affine_trans_image
+
+
+dev_close_window()
+get_image_size()
+dev_open_window()
+
+等距变换:三个自由度
+相似变换：四个自由度（多了缩放自由度）
+
+刚体变换：原一样
+仿射变换：原本平行则平行
+投影变换：不能保证平行 小孔成像（单应性变换）空间三维立体投射到投影面上得到二维平面图 
+{透视投影：中心投影，有投影中心
+ 平行投影：投影线
+ }
+ 单应性不严谨定义：用无镜头畸变的相机从不同位置拍摄统一平面物体的图像之间存在单应性，可以用投影变换表示，根据a投影得到b投影
+ 
+ 
+ 仿射变换也是投影变换的一种
+ [A  ,T
+  V^T,s]
+  仿射变换V^T是0
+  V^T变换后的边缘交点
+  s是v1，v2的缩放因子
+  
+  单应性矩阵H与aH完全一样
+  单应性矩阵只有8个自由度
+  levenberg——marquardt迭代
+  
+  如何得到两个像素点对：
+  1、打印一张棋盘格标定图纸，铁道平面物体表面
+  2、不同方向拍摄棋盘格图片
+  3、角点检测
+  4、棋盘格标定图纸所有交点空间坐标是已知的，这些交点对应拍摄的标定图片中的角点的像素坐标也是已知的
+  利用N>4匹配点对，利用LM优化方法得到单应矩阵H
+  
+  作用：单应性矩阵：图像校正、图像拼接、相机位姿估计、视觉SLAM
+  实现：hom_vector_to_proj_hom_mat2d(::px,py,pw,qx,qy,qw,Method:HomMat2D)
+  Method:Estimation algorithm|Defaultvalue:normalized_dlt|list of value:"dlt",normalized_dlt
+  
+  实例：二维码校正
+  
+  更新关闭窗口
+  dev_update_off()
+  dev_close_window()
+  read_image(Image,'4-3.png')
+  dev-open_window_fit_image(Image,0,0,-1,-1,Window Handle)
+  设置输出颜色为红色
+  dev_set_color('red')
+  定义输出线宽2
+  dev_set_line_width(2)
+  
+  定义坐标变量：
+  X:=[163,280,362,75]
+  Y:=[12,120,361,340]
+  
+  为每个输入点生成十字形状的XLD轮廓
+  6代表组成十字横线的长度，0,78代表角度
+  gen_cross_contour_xld(Crosses,X,Y,6,0.78)
+  dev_display(Image_slanted)
+  dev_display(Crosses)
+  stop()
+  
+  hom_vector_to_proj_hom_mat2d(X,Y,[1,1,1,1],[75,360,360,75],[110,110,360,360],[1,1,1,1],'normalized_dlt',HomMat2D)
+  projective_trans_image(Image,Image_rectified,HomMat2D,'bilinear','false','false')
+  stop()
