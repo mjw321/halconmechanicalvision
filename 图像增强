@@ -1,0 +1,30 @@
+图像增强目的：强调图像的整体或者局部特性
+
+图像增强：{空间域：点运算 |灰度变换、直方图修正、局部统计法
+                领域运算 |图像平滑、图像锐化
+          频率域：低通、同态、高通FFT                 图像变换域，对图像变换值进行操作，然后逆变换
+          
+线性灰度变换：k>1，g(x,y)=k*[f(x,y)-a]+c图像对比度变大，灰度取值动态范围增加
+分段线性变换 分段函数 
+    非线性变换
+    
+ 图像取反算子
+ inver_image(Image:Imageinvert::)
+ 增强图像对比度
+ emphasize(Image:ImageEmphaseize:MaskWidth,MaskHeight,factor:)
+ res:=round((orig-mean)*Factor)+orig
+ 缩放
+ scale_image(Image:ImageScaled:Mult,add:)
+ g*mult+add=g……’
+ 
+ 直方图均衡化
+ equ_histo_image(grayImage,
+ 直方图规定化：对图像修正的增强方法，将所有图片规定化到1
+ 
+ 图像平滑
+ 高斯噪声
+ gauss_distrubution(20,Distribution)
+ add_noise_distribution(GrayImage,ImageNoise,Distribution)
+ 椒盐噪声
+ 
+ 图像锐化：
