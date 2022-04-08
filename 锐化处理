@@ -1,0 +1,59 @@
+运用Sobel
+read_image(Image,'fabrik')
+sobel_amp(Image,EdgeAmplitude,"Sum_abs',3)
+阈值分割
+thresohld(EdgeAmplitude,Region,10,255)
+提取边缘框架
+skeleton(Region,Skeleton)
+显示图片
+dev_display(Image)
+显示边缘框架
+dev_display(Skeleton)
+
+Sobel算子获得边界比较粗略的边界，反应的边界信息较少，但是所反应的边界比较清晰
+laplacian算子蝴蝶边界比较细致的边界，反应的边界信息包括了许多细节的信息，所反映的边界不是太清晰
+
+laplace(Image,ImageLaplace,'absolute',3,'n_8isotropic')
+dev_display(ImageLaplace)
+
+zero_crossing(ImageLaplace,RegionCrossing)
+
+拉普拉斯算子
+read_image(Image,'mreut')
+对图像进行log处理
+laplace_of_gauss(Image,ImageLaplace,7.0)
+zero_crossing(ImageLaplace,RegionCrossing)   过零点的数据
+
+显示处理后的图像
+dev_display(ImageLaplace)
+dev_display(RegionCrossing)
+
+频率处理法
+一副图像灰度均匀的区域对应低频部分
+图像中噪声、边缘、细节对应高频部分
+
+f(x,y)->FFT->H(u,v)G(u,v)->IFFT
+
+fft_generic gen_lowpass/gen_highpass  fft_generic
+
+快速傅里叶变换：fft_generic(Image:ImageFFT:'to_freq',Exponent,Norm,Mode,ResultType:)
+生成理想的低通滤波模型：
+              gen_lowpass("ImageLowpass:Frequency,Norm,Mode,Width，Height:)
+              gen_highpass(:ImageHighpass:Frequency,Norm,Mode,Width,Height:)
+在频域里卷积图像：
+              convol_fft(ImageFFT,ImageFilter:ImageConvol::)
+              
+进行快速傅里叶反变换：
+              fft_generic(Image:ImageFFT;'from_freq',Exponent,Norm,Mode,ResultType:)
+              
+直接对数字图像进行二维DFT变换得到的频谱图是高频在中间，低频在四角，为了把能量集中起来便于使用滤波器，可以利用二维DFT的平移性质对频谱进行中心化
+
+中心化：
+灰度区域多，低频能量更大，高频能量大，边缘细节少，想把低频放中间，高频放周围
+高频成分比较暗，低频比较亮
+
+同态滤波：图像照度不均匀（照度不均，高通），有阴影怎么办？
+同态滤波是把图像的照明反射模型作为频域处理的基础，将亮度范围压缩和对比度增强的频域方法
+低频部分对应照度分量，高频部分对应反射分量
+
+图像分割：阈值分割，区域分割，边缘检测，hough变换，分水邻算法
