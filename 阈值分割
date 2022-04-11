@@ -1,0 +1,10 @@
+threshold（Image:Region:Mingray:Maxgray)
+
+
+
+read_image
+灰度直方图
+gray_histo(Image,Image,AbsoluteHisto,RelativeHisto)
+从直方图中确定灰度值阈值
+histo_to_thresh(RelativeHisto,8,MinThresh,MaxTHresh)
+threshold(Image,Region,MinThresh,MaxThresh)
